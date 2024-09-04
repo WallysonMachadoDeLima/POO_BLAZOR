@@ -1,0 +1,95 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using POO_BLAZOR.Models
+@code {
+    [Parameter]
+    public Veiculo Veiculo { get; set; }
+
+    public List<Cor> Cores { get; set; } = new();
+    public List<Marca> Marcas { get; set; } = new();
+
+    [Inject]
+    public IDbContextFactory<POO_BLAZOR.Data.AppDbContext> DbFactory { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Cores = await context.Cores.ToListAsync();
+        Marcas = await context.Marcas.ToListAsync();
+    }
+}
+
+<div>
+    <!-- Placa -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="placa" class="form-label">Placa:</label>
+            <InputText id="placa" @bind-Value="Veiculo.Placa" class="form-control" />
+            <ValidationMessage For="() => Veiculo.Placa" class="text-danger" />
+        </div>
+
+        <!-- Modelo -->
+        <div class="col-md-4">
+            <label for="modelo" class="form-label">Modelo:</label>
+            <InputText id="modelo" @bind-Value="Veiculo.Modelo" class="form-control" />
+            <ValidationMessage For="() => Veiculo.Modelo" class="text-danger" />
+        </div>
+
+        <!-- Ano de Fabricação/Modelo -->
+        <div class="col-md-4">
+            <label for="anofabricacaomodelo" class="form-label">Ano de Fabricação/Modelo:</label>
+            <InputText id="anofabricacaomodelo" @bind-Value="Veiculo.AnoFabricacaoModelo" class="form-control" />
+            <ValidationMessage For="() => Veiculo.AnoFabricacaoModelo" class="text-danger" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <!-- Chassi -->
+        <div class="col-md-4">
+            <label for="chassis" class="form-label">Chassi:</label>
+            <InputText id="chassis" @bind-Value="Veiculo.Chassis" class="form-control" />
+            <ValidationMessage For="() => Veiculo.Chassis" class="text-danger" />
+        </div>
+
+        <!-- Renavam -->
+        <div class="col-md-4">
+            <label for="renavamveiculo" class="form-label">Renavam:</label>
+            <InputText id="renavamveiculo" @bind-Value="Veiculo.RenavamVeiculo" class="form-control" />
+            <ValidationMessage For="() => Veiculo.RenavamVeiculo" class="text-danger" />
+        </div>
+
+        <!-- Seleção de Cor -->
+        <div class="col-md-4">
+            <label for="cor" class="form-label">Cor:</label>
+            <InputSelect id="cor" @bind-Value="Veiculo.FkIdCor" class="form-control">
+                <option value="">Selecione uma cor</option> <!-- Essa linha continua a mesma -->
+                @foreach (var cor in Cores)
+                {
+                    <option value="@cor.Id">@cor.Nome</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="() => Veiculo.FkIdCor" class="text-danger" />
+        </div>
+    </div>
+
+     <div class="row mb-3">
+        <!-- Marca -->
+        <div class="col-md-4">
+            <label for="marca" class="form-label">Marca:</label>
+            <InputSelect id="marca" @bind-Value="Veiculo.FkIdMarca" class="form-control">
+                <option value="">Selecione uma marca</option>
+                @foreach (var marca in Marcas)
+                {
+                    <option value="@marca.Id">@marca.Nome</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="() => Veiculo.FkIdMarca" class="text-danger" />
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <div class="btn-group">
+            <a href="/veiculos" class="btn btn-secondary me-2">Voltar</a>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+    </div>
+</div>

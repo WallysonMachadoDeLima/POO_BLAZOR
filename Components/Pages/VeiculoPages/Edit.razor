@@ -1,0 +1,90 @@
+﻿@page "/Veiculos/edit"
+
+@using Microsoft.EntityFrameworkCore
+@using POO_BLAZOR.Components.Pages.VeiculoPages.Components
+@using POO_BLAZOR.Models
+@inject IDbContextFactory<POO_BLAZOR.Data.AppDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Editar</PageTitle>
+
+<h1 class="title">Editar Veículo</h1>
+
+<hr />
+@if (Veiculo is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+     <div class="row">
+     <div class="col-md-12">
+         <EditForm method="post" Model="@Veiculo" OnValidSubmit="@UpdateVeiculo" FormName="edit" Enhance>
+             <input type="hidden" name="Veiculo.Id" value="@Veiculo.Id" />
+
+             <VeiculoForm Veiculo="Veiculo" />
+
+         </EditForm>
+     </div>
+ </div>
+}
+
+@code {
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    public Veiculo? Veiculo { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Veiculo ??= await context.Veiculos.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Veiculo is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see https://aka.ms/RazorPagesCRUD.
+    public async Task UpdateVeiculo()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Veiculo!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!VeiculoExists(Veiculo!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/veiculos");
+    }
+
+    bool VeiculoExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Veiculos.Any(e => e.Id == id);
+    }
+}
+
+
+<style>
+    .title {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
+</style>

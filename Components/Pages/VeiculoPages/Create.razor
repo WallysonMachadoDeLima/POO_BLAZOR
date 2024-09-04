@@ -1,0 +1,48 @@
+﻿@page "/veiculos/create"
+
+@using Microsoft.EntityFrameworkCore
+@using POO_BLAZOR.Components.Pages.VeiculoPages.Components
+@using POO_BLAZOR.Models
+@inject IDbContextFactory<POO_BLAZOR.Data.AppDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Criar</PageTitle>
+
+<h1 class="title">Criar Veículo</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+      
+        <EditForm method="post" Model="@Veiculo" OnValidSubmit="@AddVeiculo" FormName="create">
+            <DataAnnotationsValidator />
+            <VeiculoForm Veiculo="@Veiculo" />
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    public Veiculo Veiculo { get; set; } = new();
+
+    public async Task AddVeiculo()
+    {
+       
+        if (Veiculo != null)
+        {
+            using var context = DbFactory.CreateDbContext();
+            context.Veiculos.Add(Veiculo);
+            await context.SaveChangesAsync();
+
+            NavigationManager.NavigateTo("/veiculos");
+        }
+    }
+}
+
+<style>
+    .title {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
+</style>

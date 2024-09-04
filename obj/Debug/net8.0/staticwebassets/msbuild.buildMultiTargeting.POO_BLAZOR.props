@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\POO_BLAZOR.props" />
+</Project>

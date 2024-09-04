@@ -1,0 +1,73 @@
+﻿@page "/veiculos/delete"
+
+@using Microsoft.EntityFrameworkCore
+@using POO_BLAZOR.Models
+@inject IDbContextFactory<POO_BLAZOR.Data.AppDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Excluir Veículo</PageTitle>
+
+<h1>Excluir Veículo</h1>
+
+<h3>Tem certeza de que deseja excluir este veículo?</h3>
+<div>
+    <hr />
+    @if (veiculo is null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else
+    {
+        <div class="row mb-2">
+            <div class="col-sm-4"><strong>Placa:</strong> @veiculo.Placa</div>
+            <div class="col-sm-4"><strong>Ano:</strong> @veiculo.AnoFabricacaoModelo</div>
+            <div class="col-sm-4"><strong>Modelo:</strong> @veiculo.Modelo</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-4"><strong>Chassi:</strong> @veiculo.Chassis</div>
+            <div class="col-sm-4"><strong>Renavam:</strong> @veiculo.RenavamVeiculo</div>
+            <div class="col-sm-4"><strong>Cor:</strong> @veiculo.Cor.Nome</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-4"><strong>Marca:</strong> @veiculo.Marca.Nome</div>
+        </div>
+        <EditForm method="post" Model="veiculo" OnValidSubmit="DeleteVeiculo" FormName="delete" Enhance>
+            <div class="d-flex justify-content-end">
+                <div class="btn-group">
+                    <a href="/veiculos" class="btn btn-secondary me-2">Voltar</a>
+                    <button type="submit" class="btn btn-danger" disabled="@(veiculo is null)">Excluir</button>
+                </div>
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    Veiculo? veiculo;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Veiculos
+           .Include(v => v.Cor)
+           .Include(v => v.Marca)
+           .ToList();
+        veiculo = await context.Veiculos.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (veiculo is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public async Task DeleteVeiculo()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Veiculos.Remove(veiculo!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/veiculos");
+    }
+}

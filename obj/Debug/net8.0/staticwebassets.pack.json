@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\macha\\source\\repos\\POO_BLAZOR\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\POO_BLAZOR.bundle.scp.css",
+      "PackagePath": "staticwebassets\\POO_BLAZOR.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\macha\\source\\repos\\POO_BLAZOR\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\macha\\source\\repos\\POO_BLAZOR\\wwwroot\\background.png",
+      "PackagePath": "staticwebassets\\background.png"
+    },
+    {
+      "Id": "C:\\Users\\macha\\source\\repos\\POO_BLAZOR\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\macha\\source\\repos\\POO_BLAZOR\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\macha\\source\\repos\\POO_BLAZOR\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.POO_BLAZOR.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.POO_BLAZOR.props",
+      "PackagePath": "build\\POO_BLAZOR.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.POO_BLAZOR.props",
+      "PackagePath": "buildMultiTargeting\\POO_BLAZOR.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.POO_BLAZOR.props",
+      "PackagePath": "buildTransitive\\POO_BLAZOR.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
